@@ -5,6 +5,6 @@ type User struct {
     NfcSerial   int64
     FirstName   string
     LastName    string
-    Tel         int64
+    Tel         string
     Devices     []Device
 }
