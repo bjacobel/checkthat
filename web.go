@@ -4,7 +4,8 @@ import (
     "github.com/laurent22/ripple"
     "github.com/jinzhu/gorm"
     _ "github.com/lib/pq"
-    "github.com/bjacobel/checkthat/controllers"
+    //"github.com/bjacobel/checkthat/controllers"
+    "github.com/bjacobel/checkthat/models"
     "net/http"
     "os"
     "fmt"
@@ -16,8 +17,8 @@ func main() {
     if dberr != nil {
         panic(dberr)
     }
-    db.AutoMigrate(User{})
-    db.AutoMigrate(Device{})
+    db.AutoMigrate(models.User{})
+    db.AutoMigrate(models.Device{})
 
     fmt.Println(db.DB())
 
