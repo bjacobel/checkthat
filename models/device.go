@@ -2,9 +2,9 @@ package models
 
 type Device struct {
     Id          int64
-    OS          string
+    Os          string
     Type        string
     Version     float32
-    NFCSerial   int64
+    NfcSerial   int64
     UserId      int64
 }

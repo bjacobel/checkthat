@@ -2,9 +2,9 @@ package models
 
 type User struct {
     Id          int64
-    NFCSerial   int64
-    First_name  string
-    Last_name   string
+    NfcSerial   int64
+    FirstName  string
+    LastName   string
     Tel         int
     Devices     []Device
 }
