@@ -1,0 +1,14 @@
+{
+	"ImportPath": "github.com/bjacobel/checkthat",
+	"GoVersion": "go1.3",
+	"Deps": [
+		{
+			"ImportPath": "github.com/dchest/uniuri",
+			"Rev": "bc4af7603a3e0ce9d58009f82fca481555182e1c"
+		},
+		{
+			"ImportPath": "github.com/laurent22/ripple",
+			"Rev": "e521e355a40caa398e4635dc32d086b88ffa43b0"
+		}
+	]
+}
