@@ -7,8 +7,16 @@
 			"Rev": "bc4af7603a3e0ce9d58009f82fca481555182e1c"
 		},
 		{
+			"ImportPath": "github.com/jinzhu/gorm",
+			"Rev": "ffab2d3901c091ab5947510386e98f88b633b778"
+		},
+		{
 			"ImportPath": "github.com/laurent22/ripple",
 			"Rev": "e521e355a40caa398e4635dc32d086b88ffa43b0"
+		},
+		{
+			"ImportPath": "github.com/lib/pq",
+			"Rev": "6d16a400975d186dbbf6334350fca31721b6efe5"
 		}
 	]
 }
