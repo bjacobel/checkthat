@@ -33,7 +33,7 @@ func (this *UserController) Get(ctx *ripple.Context) {
     users := []models.User{}
 
     userId, _ := strconv.Atoi(ctx.Params["id"])
-    if userId >= 0 {
+    if userId > 0 {
         ctx.Response.Body = this.db.First(&user, userId)
     } else {
         ctx.Response.Body = this.db.Find(&users)

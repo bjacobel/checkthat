@@ -31,7 +31,7 @@ func (this *DeviceController) Get(ctx *ripple.Context) {
     devices := []models.Device{}
 
     deviceId, _ := strconv.Atoi(ctx.Params["id"])
-    if deviceId >= 0 {
+    if deviceId > 0 {
         ctx.Response.Body = this.db.First(&device, deviceId)
     } else {
         ctx.Response.Body = this.db.Find(&devices)
