@@ -21,7 +21,6 @@ func main() {
 	app.AddRoute(ripple.Route{Pattern: ":_controller/:id/"})
 	app.AddRoute(ripple.Route{Pattern: ":_controller"})
 
-
 	// Start the server
 	httperr := http.ListenAndServe(":"+os.Getenv("PORT"), app)
 	if httperr != nil {
