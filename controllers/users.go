@@ -8,8 +8,6 @@ import (
 	_ "github.com/lib/pq"
 	"os"
 	"strconv"
-	// "encoding/json"
-	// "io/ioutil"
 )
 
 type UserController struct {
@@ -25,7 +23,7 @@ func NewUserController() *UserController {
 	}
 
     db.AutoMigrate(models.User{})
-	
+
 	output.db = db
 
 	return output
@@ -40,10 +38,3 @@ func (this *UserController) Get(ctx *ripple.Context) {
 		ctx.Response.Body = this.db.Find(&[]models.User{})
 	}
 }
-
-// func (this *UserController) Post(ctx *ripple.Context) {
-//     body, _ := ioutil.ReadAll(ctx.Request.Body)
-//     var user models.UserModel
-//     json.Unmarshal(body, &user)
-//     ctx.Response.Body = this.userCollection.Add(user)
-// }

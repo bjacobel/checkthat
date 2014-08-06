@@ -8,6 +8,8 @@ import (
 	_ "github.com/lib/pq"
 	"os"
 	"strconv"
+    "encoding/json"
+    "io/ioutil"
 )
 
 type DeviceController struct {
@@ -41,4 +43,17 @@ func (this *DeviceController) Get(ctx *ripple.Context) {
 	} else {
 		ctx.Response.Body = listResponse
 	}
+}
+
+func(this *DeviceController) PostCheckout(ctx *ripple.Context) {
+    deviceId, _ := strconv.Atoi(ctx.Params["id"])
+    body, _ := ioutil.ReadAll(ctx.Request.Body)
+
+    pc := map[string]int64{}
+
+    json.Unmarshal(body, &pc)
+
+    fmt.Println(deviceId, pc)
+
+    ctx.Response.Status = 200
 }
