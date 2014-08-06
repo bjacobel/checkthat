@@ -29,14 +29,12 @@ func NewUserController() *UserController {
 }
 
 func (this *UserController) Get(ctx *ripple.Context) {
-    user := models.User{}
-    users := []models.User{}
-
     userId, _ := strconv.Atoi(ctx.Params["id"])
+    
     if userId > 0 {
-        ctx.Response.Body = this.db.First(&user, userId)
+        ctx.Response.Body = this.db.First(&models.User{}, userId)
     } else {
-        ctx.Response.Body = this.db.Find(&users)
+        ctx.Response.Body = this.db.Find(&[]models.User{})
     }
 }
 
