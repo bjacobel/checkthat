@@ -6,5 +6,4 @@ type User struct {
 	FirstName string
 	LastName  string
 	Tel       string
-	Devices   []Device
 }

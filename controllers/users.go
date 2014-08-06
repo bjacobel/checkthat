@@ -23,6 +23,9 @@ func NewUserController() *UserController {
 	if dberr != nil {
 		panic(dberr)
 	}
+
+    db.AutoMigrate(models.User{})
+	
 	output.db = db
 
 	return output

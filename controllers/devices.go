@@ -21,6 +21,9 @@ func NewDeviceController() *DeviceController {
 	if dberr != nil {
 		panic(dberr)
 	}
+
+    db.AutoMigrate(models.Device{})
+
 	output.db = db
 
 	return output
@@ -30,7 +33,7 @@ func (this *DeviceController) Get(ctx *ripple.Context) {
 	deviceId, _ := strconv.Atoi(ctx.Params["id"])
 
 	listResponse := map[string]*gorm.DB{}
-	listResponse["checked_out"] = this.db.Where("user_id = ?", 2).Find(&[]models.Device{})
+	listResponse["checked_out"] = this.db.Where("user_id >= ?", 2).Find(&[]models.Device{})
 	listResponse["checked_in"] = this.db.Where("user_id = ?", 1).Find(&[]models.Device{})
 
 	if deviceId > 0 {
