@@ -32,6 +32,9 @@ func NewDeviceController() *DeviceController {
 }
 
 func (this *DeviceController) Get(ctx *ripple.Context) {
+    //this.db.Table("users").Select("users.name, emails.email").Joins("left join emails on emails.user_id = users.id").Scan(&results)
+
+
 	deviceId, _ := strconv.Atoi(ctx.Params["id"])
 
 	listResponse := map[string]*gorm.DB{}
@@ -46,14 +49,21 @@ func (this *DeviceController) Get(ctx *ripple.Context) {
 }
 
 func(this *DeviceController) PostCheckout(ctx *ripple.Context) {
-    deviceId, _ := strconv.Atoi(ctx.Params["id"])
+    //deviceId, _ := strconv.Atoi(ctx.Params["id"])
     body, _ := ioutil.ReadAll(ctx.Request.Body)
 
     pc := map[string]int64{}
 
     json.Unmarshal(body, &pc)
 
-    fmt.Println(deviceId, pc)
+    if _, ok := pc["device_uid"]; ! ok {
+        ctx.Response.Status = 422
+        return
+    }
+    if _, ok := pc["user_uid"]; ! ok {
+        ctx.Response.Status = 422
+        return
+    }
 
     ctx.Response.Status = 200
 }
