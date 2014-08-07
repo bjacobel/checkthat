@@ -1,15 +1,14 @@
 package controllers
 
 import (
-	"fmt"
+	"encoding/json"
+	_ "fmt"
 	"github.com/bjacobel/checkthat/models"
 	"github.com/jinzhu/gorm"
 	"github.com/laurent22/ripple"
 	_ "github.com/lib/pq"
-	"os"
-	"strconv"
-	"encoding/json"
 	"io/ioutil"
+	"strconv"
 )
 
 type DeviceController struct {
@@ -17,33 +16,23 @@ type DeviceController struct {
 }
 
 type JoinedResult struct {
-	Id 				int64
-	Os 				string
-	Type 			string
-	Name 			string
-	Version			float32
-	NfcSerial		int64
-	CheckedOut 		int64
-	UserId 			int64
-	UserNfcSerial 	int64
-	UserFirstName	string
-	UserLastName 	string
-	UserTel			string
+	Id            int64
+	Os            string
+	Type          string
+	Name          string
+	Version       float32
+	NfcSerial     int64
+	CheckedOut    int64
+	UserId        int64
+	UserNfcSerial int64
+	UserFirstName string
+	UserLastName  string
+	UserTel       string
 }
 
-func NewDeviceController() *DeviceController {
+func NewDeviceController(db gorm.DB) *DeviceController {
 	output := new(DeviceController)
-
-	db, dberr := gorm.Open("postgres", fmt.Sprintf("postgres://%s:%s@ec2-54-197-241-67.compute-1.amazonaws.com:5432/%s", os.Getenv("PGUSER"), os.Getenv("PGPW"), os.Getenv("PGDB")))
-	
-	if dberr != nil {
-		panic(dberr)
-	}
-
-	db.AutoMigrate(models.Device{})
-
 	output.db = db
-
 	return output
 }
 
@@ -78,7 +67,7 @@ func (this *DeviceController) Get(ctx *ripple.Context) {
 	}
 }
 
-func(this *DeviceController) PostCheckout(ctx *ripple.Context) {
+func (this *DeviceController) PostCheckout(ctx *ripple.Context) {
 	deviceId, _ := strconv.Atoi(ctx.Params["id"])
 	body, _ := ioutil.ReadAll(ctx.Request.Body)
 
@@ -86,11 +75,11 @@ func(this *DeviceController) PostCheckout(ctx *ripple.Context) {
 
 	json.Unmarshal(body, &pc)
 
-	if _, ok := pc["device_uid"]; ! ok {
+	if _, ok := pc["device_uid"]; !ok {
 		ctx.Response.Status = 422
 		return
 	}
-	if _, ok := pc["user_uid"]; ! ok {
+	if _, ok := pc["user_uid"]; !ok {
 		ctx.Response.Status = 422
 		return
 	}

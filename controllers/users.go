@@ -1,12 +1,11 @@
 package controllers
 
 import (
-	"fmt"
+	_ "fmt"
 	"github.com/bjacobel/checkthat/models"
 	"github.com/jinzhu/gorm"
 	"github.com/laurent22/ripple"
 	_ "github.com/lib/pq"
-	"os"
 	"strconv"
 )
 
@@ -14,18 +13,9 @@ type UserController struct {
 	db gorm.DB
 }
 
-func NewUserController() *UserController {
+func NewUserController(db gorm.DB) *UserController {
 	output := new(UserController)
-
-	db, dberr := gorm.Open("postgres", fmt.Sprintf("postgres://%s:%s@ec2-54-197-241-67.compute-1.amazonaws.com:5432/%s", os.Getenv("PGUSER"), os.Getenv("PGPW"), os.Getenv("PGDB")))
-	if dberr != nil {
-		panic(dberr)
-	}
-
-	db.AutoMigrate(models.User{})
-
 	output.db = db
-
 	return output
 }
 
