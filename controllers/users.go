@@ -23,8 +23,12 @@ func (this *UserController) Get(ctx *ripple.Context) {
 	userId, _ := strconv.Atoi(ctx.Params["id"])
 
 	if userId > 0 {
-		ctx.Response.Body = this.db.First(&models.User{}, userId)
+		single_user := models.User{}
+		this.db.First(&single_user, userId)
+		ctx.Response.Body = single_user
 	} else {
-		ctx.Response.Body = this.db.Find(&[]models.User{})
+		user_list := []models.User{}
+		this.db.Find(&user_list)
+		ctx.Response.Body = user_list
 	}
 }
