@@ -32,7 +32,7 @@ func main() {
 	userController := controllers.NewUserController(db)
 	app.RegisterController("users", userController)
 
-	app.AddRoute(ripple.Route{Pattern: ":_controller/:id/:_action"})
+	app.AddRoute(ripple.Route{Pattern: ":_controller/:_action"})
 	app.AddRoute(ripple.Route{Pattern: ":_controller/:id/"})
 	app.AddRoute(ripple.Route{Pattern: ":_controller"})
 

@@ -1,14 +1,14 @@
 package controllers
 
 import (
-	"encoding/json"
+	
 	"github.com/bjacobel/checkthat/models"
 	"github.com/jinzhu/gorm"
 	"github.com/laurent22/ripple"
-	"io/ioutil"
 	"strconv"
+	"io/ioutil"
+	"encoding/json"
 	"time"
-	_ "fmt"
 	_ "github.com/lib/pq"
 )
 
@@ -78,7 +78,6 @@ func (this *DeviceController) Get(ctx *ripple.Context) {
 }
 
 func (this *DeviceController) PostCheckout(ctx *ripple.Context) {
-	deviceId, _ := strconv.Atoi(ctx.Params["id"])
 	body, _ := ioutil.ReadAll(ctx.Request.Body)
 
 	pc := map[string]int64{}
@@ -86,22 +85,32 @@ func (this *DeviceController) PostCheckout(ctx *ripple.Context) {
 	json.Unmarshal(body, &pc)
 
 	if _, ok := pc["device_uid"]; !ok {
-		ctx.Response.Status = 422
+		ctx.Response.Status = 412
 		return
 	}
 	if _, ok := pc["user_uid"]; !ok {
-		ctx.Response.Status = 422
+		ctx.Response.Status = 412
 		return
 	}
 
 	device := models.Device{}
-	this.db.Find(&device, deviceId)
+	this.db.Where("nfc_serial = ?", pc["device_uid"]).First(&device)
+	
+	user := models.User{}
+	this.db.Where("nfc_serial = ?", pc["user_uid"]).First(&user)
 
-	// device := models.Device{}
-	// this.db.Find(&device, deviceId)
-
+	if device.Id == 0 {
+		ctx.Response.Status = 412
+		return
+	}
+	
+	if device.Id == 0 {
+		ctx.Response.Status = 412
+		return
+	}
 
 	device.CheckedOut = time.Now().Unix()
+	device.UserId = user.Id
 
 	this.db.Save(&device)
 
