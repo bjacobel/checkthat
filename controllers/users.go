@@ -22,7 +22,7 @@ func NewUserController() *UserController {
 		panic(dberr)
 	}
 
-    db.AutoMigrate(models.User{})
+	db.AutoMigrate(models.User{})
 
 	output.db = db
 
