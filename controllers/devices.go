@@ -79,7 +79,7 @@ func (this *DeviceController) Get(ctx *ripple.Context) {
 }
 
 func(this *DeviceController) PostCheckout(ctx *ripple.Context) {
-	//deviceId, _ := strconv.Atoi(ctx.Params["id"])
+	deviceId, _ := strconv.Atoi(ctx.Params["id"])
 	body, _ := ioutil.ReadAll(ctx.Request.Body)
 
 	pc := map[string]int64{}
@@ -96,4 +96,5 @@ func(this *DeviceController) PostCheckout(ctx *ripple.Context) {
 	}
 
 	ctx.Response.Status = 200
+	ctx.Response.Body = this.db.Find(&[]models.Device{}, deviceId)
 }
