@@ -2,13 +2,14 @@ package controllers
 
 import (
 	"encoding/json"
-	_ "fmt"
 	"github.com/bjacobel/checkthat/models"
 	"github.com/jinzhu/gorm"
 	"github.com/laurent22/ripple"
-	_ "github.com/lib/pq"
 	"io/ioutil"
 	"strconv"
+	"time"
+	_ "fmt"
+	_ "github.com/lib/pq"
 )
 
 type DeviceController struct {
@@ -71,7 +72,7 @@ func (this *DeviceController) Get(ctx *ripple.Context) {
 		listResponse := ResponseStruct{}
 		listResponse.CheckedOut = checkedout
 		listResponse.CheckedIn = checkedin
-		
+
 		ctx.Response.Body = listResponse
 	}
 }
@@ -95,6 +96,14 @@ func (this *DeviceController) PostCheckout(ctx *ripple.Context) {
 
 	device := models.Device{}
 	this.db.Find(&device, deviceId)
+
+	// device := models.Device{}
+	// this.db.Find(&device, deviceId)
+
+
+	device.CheckedOut = time.Now().Unix()
+
+	this.db.Save(&device)
 
 	ctx.Response.Status = 200
 	ctx.Response.Body = device
