@@ -21,6 +21,8 @@ type JoinedResult struct {
 	Os            string
 	Type          string
 	Name          string
+	Manufacturer  string
+	Model         string
 	Version       float32
 	NfcSerial     int64
 	CheckedOut    int64
@@ -56,6 +58,8 @@ func (this *DeviceController) Get(ctx *ripple.Context) {
 			devices.os as os,
 			devices.type as type,
 			devices.name as name,
+			devices.manufacturer as manufacturer,
+			devices.model as model,
 			devices.version as version,
 			devices.nfc_serial as nfc_serial,
 			devices.checked_out as checked_out,
