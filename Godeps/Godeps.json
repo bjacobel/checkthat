@@ -4,7 +4,7 @@
 	"Deps": [
 		{
 			"ImportPath": "github.com/bjacobel/twilio-go",
-			"Rev": "d59eb097d72be7160ea808b9767b2b3752e3a244"
+			"Rev": "b39ca9af8542bbdbb267fb052f55a4c1483b0089"
 		},
 		{
 			"ImportPath": "github.com/dchest/uniuri",
