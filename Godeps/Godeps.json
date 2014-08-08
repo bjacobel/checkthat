@@ -3,6 +3,10 @@
 	"GoVersion": "go1.3",
 	"Deps": [
 		{
+			"ImportPath": "github.com/bjacobel/twilio-go",
+			"Rev": "fcee7e35eea2c3e6a6bf0e6685f5d9d5d615b552"
+		},
+		{
 			"ImportPath": "github.com/dchest/uniuri",
 			"Rev": "bc4af7603a3e0ce9d58009f82fca481555182e1c"
 		},
