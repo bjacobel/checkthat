@@ -25,7 +25,7 @@ type JoinedResult struct {
 	Model         string
 	Version       float32
 	NfcSerial     int64
-	LastActivity    int64
+	LastActivity  int64
 	UserId        int64
 	UserNfcSerial int64
 	UserFirstName string
