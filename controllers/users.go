@@ -44,7 +44,8 @@ func (this *UserController) PostPush(ctx *ripple.Context) {
 	pn.DeviceToken = "YOUR_DEVICE_TOKEN_HERE"
 	pn.AddPayload(payload)
 
-	client := apns.NewClient("gateway.sandbox.push.apple.com:2195", "YOUR_CERT_PEM", "YOUR_KEY_NOENC_PEM")
+	client := apns.NewClient("gateway.sandbox.push.apple.com:2195", "APNS_CERT", "APNS_KEY")
+
 	resp := client.Send(pn)
 
 	alert, _ := pn.PayloadString()
@@ -52,10 +53,12 @@ func (this *UserController) PostPush(ctx *ripple.Context) {
 	fmt.Println("Success:", resp.Success)
 	fmt.Println("Error:", resp.Error)
 
-	// if there is a user id, push to that user
+	
 	if userId, _ := strconv.Atoi(ctx.Params["id"]) ; userId > 0 {
+		// if there is a user id, push to that user
 
-	} else { // push to everyone
+	} else {
+		// push to everyone
 
 	}
 }
