@@ -55,16 +55,21 @@ func (this *UserController) PostPush(ctx *ripple.Context) {
 	var msg_resp *twilio.MessagesResponse
 	var msg_err *twilio.ErrorResponse
 
-	if userId, _ := strconv.Atoi(ctx.Params["id"]) ; userId > 0 {
-		// if there is a user id, push to that user
+	if  device.UserId > 0 {
+		// if checked out to a user. push to them only
 
 		user := models.User{}
-		this.db.Find(&user, userId)
+		this.db.Find(&user, device.UserId)
 
-		message := "Hey, "+string(user.FirstName)+"! Somebody needs to use the "+string(device.Model)+" you've checked out. Please return it."
+		message := "Hey, "+string(user.FirstName)+"! Somebody needs to use the "+string(device.Model)+" you've checked out. Please return it as soon as you're done with it!"
 		
-		msg_resp, msg_err = this.twclient.Messages.Create("+15074164045", user.Tel, message)
+		go func() {
+			msg_resp, msg_err = this.twclient.Messages.Create("+1 617-860-2277", "+15072103812", message)
+		}()
+
 	} else {
+		// we've lost it? Ask everyone.
+
 		users := []models.User{}
 		this.db.Find(&users)
 
@@ -73,7 +78,7 @@ func (this *UserController) PostPush(ctx *ripple.Context) {
 		for _, user := range users {
 			message = "Hey, "+string(user.FirstName)+"! Somebody needs the "+string(device.Model)+" called "+string(device.Name)+", but CheckThis has lost track of it. If you have it, please check it back in!"
 
-			msg_resp, msg_err = this.twclient.Messages.Create("+15074164045", user.Tel, message)
+			msg_resp, msg_err = this.twclient.Messages.Create("+1 617-860-2277", user.Tel, message)
 			
 			if msg_err.Code == 0 {
 				break
