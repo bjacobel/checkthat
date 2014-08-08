@@ -44,10 +44,6 @@ func (this *UserController) PostPush(ctx *ripple.Context) {
 
 	json.Unmarshal(body, &requestbody)
 
-	if _, ok := requestbody["requester"]; !ok {
-		ctx.Response.Status = 412
-		return
-	}
 	if _, ok := requestbody["device_id"]; !ok {
 		ctx.Response.Status = 412
 		return
@@ -55,9 +51,6 @@ func (this *UserController) PostPush(ctx *ripple.Context) {
 
 	device := models.Device{}
 	this.db.Find(&device, requestbody["device_id"])
-
-	requester := models.User{}
-	this.db.Find(&requester, requestbody["requester"])
 
 	var msg_resp *twilio.MessagesResponse
 	var msg_err *twilio.ErrorResponse
@@ -68,7 +61,7 @@ func (this *UserController) PostPush(ctx *ripple.Context) {
 		user := models.User{}
 		this.db.Find(&user, userId)
 
-		message := "Hey, "+string(user.FirstName)+"! "+requester.FirstName+" "+requester.LastName+" wants to use the "+string(device.Model)+" you've checked out. Please return it."
+		message := "Hey, "+string(user.FirstName)+"! Somebody needs to use the "+string(device.Model)+" you've checked out. Please return it."
 		
 		msg_resp, msg_err = this.twclient.Messages.Create("+15074164045", user.Tel, message)
 	} else {
@@ -78,7 +71,7 @@ func (this *UserController) PostPush(ctx *ripple.Context) {
 		var message string
 
 		for _, user := range users {
-			message = "Hey, "+string(user.FirstName)+"! "+requester.FirstName+" "+requester.LastName+" needs the "+string(device.Model)+" called "+string(device.Name)+", but they can't find it. Any ideas?"
+			message = "Hey, "+string(user.FirstName)+"! Somebody needs the "+string(device.Model)+" called "+string(device.Name)+", but CheckThis has lost track of it. If you have it, please check it back in!"
 
 			msg_resp, msg_err = this.twclient.Messages.Create("+15074164045", user.Tel, message)
 			
