@@ -5,7 +5,6 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/lib/pq"
 	"github.com/laurent22/ripple"
-	"github.com/anachronistic/apns"
 	"strconv"
 	"fmt"
 )
@@ -34,26 +33,7 @@ func (this *UserController) Get(ctx *ripple.Context) {
 	}
 }
 
-func (this *UserController) PostPush(ctx *ripple.Context) {
-	payload := apns.NewPayload()
-	payload.Alert = "Hello, world!"
-	payload.Badge = 42
-	payload.Sound = "bingbong.aiff"
-
-	pn := apns.NewPushNotification()
-	pn.DeviceToken = "YOUR_DEVICE_TOKEN_HERE"
-	pn.AddPayload(payload)
-
-	client := apns.NewClient("gateway.sandbox.push.apple.com:2195", "APNS_CERT", "APNS_KEY")
-
-	resp := client.Send(pn)
-
-	alert, _ := pn.PayloadString()
-	fmt.Println("Alert:", alert)
-	fmt.Println("Success:", resp.Success)
-	fmt.Println("Error:", resp.Error)
-
-	
+func (this *UserController) PostPush(ctx *ripple.Context) {	
 	if userId, _ := strconv.Atoi(ctx.Params["id"]) ; userId > 0 {
 		// if there is a user id, push to that user
 
