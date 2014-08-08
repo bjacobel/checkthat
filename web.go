@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/bjacobel/checkthat/controllers"
 	"github.com/bjacobel/checkthat/models"
+	"github.com/agonzalezro/twilio-go"
 	"github.com/jinzhu/gorm"
 	"github.com/laurent22/ripple"
 	"net/http"
@@ -23,13 +24,16 @@ func main() {
 	db.AutoMigrate(models.Device{})
 	db.AutoMigrate(models.User{})
 
+	// Set up the Twilio client
+	twclient := twilio.NewTwilioRestClient(os.Getenv("TWILIO_SID"), os.Getenv("TWILIO_TOKEN"))
+
 	// Build the REST application
 	app := ripple.NewApplication()
 
 	deviceController := controllers.NewDeviceController(db)
 	app.RegisterController("devices", deviceController)
 
-	userController := controllers.NewUserController(db)
+	userController := controllers.NewUserController(db, twclient)
 	app.RegisterController("users", userController)
 
 	app.AddRoute(ripple.Route{Pattern: ":_controller/:_action"})

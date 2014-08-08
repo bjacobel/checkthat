@@ -84,24 +84,24 @@ func (this *DeviceController) Get(ctx *ripple.Context) {
 func (this *DeviceController) PostCheckout(ctx *ripple.Context) {
 	body, _ := ioutil.ReadAll(ctx.Request.Body)
 
-	pc := map[string]int64{}
+	requestbody := map[string]int64{}
 
-	json.Unmarshal(body, &pc)
+	json.Unmarshal(body, &requestbody)
 
-	if _, ok := pc["device_uid"]; !ok {
+	if _, ok := requestbody["device_uid"]; !ok {
 		ctx.Response.Status = 412
 		return
 	}
-	if _, ok := pc["user_uid"]; !ok {
+	if _, ok := requestbody["user_uid"]; !ok {
 		ctx.Response.Status = 412
 		return
 	}
 
 	device := models.Device{}
-	this.db.Where("nfc_serial = ?", pc["device_uid"]).First(&device)
+	this.db.Where("nfc_serial = ?", requestbody["device_uid"]).First(&device)
 	
 	user := models.User{}
-	this.db.Where("nfc_serial = ?", pc["user_uid"]).First(&user)
+	this.db.Where("nfc_serial = ?", requestbody["user_uid"]).First(&user)
 
 	if device.Id == 0 {
 		ctx.Response.Status = 412
