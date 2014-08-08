@@ -4,12 +4,12 @@ import (
 	
 	"github.com/bjacobel/checkthat/models"
 	"github.com/jinzhu/gorm"
+	_ "github.com/lib/pq"
 	"github.com/laurent22/ripple"
 	"strconv"
 	"io/ioutil"
 	"encoding/json"
 	"time"
-	_ "github.com/lib/pq"
 )
 
 type DeviceController struct {
@@ -25,7 +25,7 @@ type JoinedResult struct {
 	Model         string
 	Version       float32
 	NfcSerial     int64
-	CheckedOut    int64
+	LastActivity    int64
 	UserId        int64
 	UserNfcSerial int64
 	UserFirstName string
@@ -62,7 +62,7 @@ func (this *DeviceController) Get(ctx *ripple.Context) {
 			devices.model as model,
 			devices.version as version,
 			devices.nfc_serial as nfc_serial,
-			devices.checked_out as checked_out,
+			devices.last_activity as last_activity,
 			users.id as user_id,
 			users.nfc_serial as user_nfc_serial,
 			users.first_name as user_first_name,
@@ -108,16 +108,25 @@ func (this *DeviceController) PostCheckout(ctx *ripple.Context) {
 		return
 	}
 	
-	if device.Id == 0 {
+	if user.Id == 0 {
 		ctx.Response.Status = 412
 		return
 	}
 
-	device.CheckedOut = time.Now().Unix()
-	device.UserId = user.Id
+	device.LastActivity = time.Now().Unix()
 
+	if device.UserId == user.Id {
+		// the device is already checked out to this user. Cool. Check it back in.
+		device.UserId = 0
+	} else {
+		// check the device out to this user
+		device.UserId = user.Id
+	}
+	
 	this.db.Save(&device)
 
 	ctx.Response.Status = 200
 	ctx.Response.Body = device
 }
+
+

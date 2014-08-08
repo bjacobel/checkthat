@@ -9,6 +9,6 @@ type Device struct {
 	Name            string
 	Version         float32
 	NfcSerial       int64
-	CheckedOut      int64
+	LastActivity    int64
 	UserId          int64 `sql:"bigint REFERENCES user(id)"`
 }
