@@ -7,6 +7,10 @@
 			"Rev": "edbadac20f662a15006affc5bf1186d73e5a4148"
 		},
 		{
+			"ImportPath": "github.com/bjacobel/twilio-go",
+			"Rev": "edbadac20f662a15006affc5bf1186d73e5a4148"
+		},
+		{
 			"ImportPath": "github.com/dchest/uniuri",
 			"Rev": "bc4af7603a3e0ce9d58009f82fca481555182e1c"
 		},

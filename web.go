@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/bjacobel/checkthat/controllers"
 	"github.com/bjacobel/checkthat/models"
-	"github.com/agonzalezro/twilio-go"
+	"github.com/bjacobel/twilio-go"
 	"github.com/jinzhu/gorm"
 	"github.com/laurent22/ripple"
 	"net/http"
