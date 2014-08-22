@@ -15,6 +15,18 @@
                 <td>{{user.Tel}}</td>
                 <td>{{user.NfcSerial}}</td>
             </tr>
+            <tr class="on-deck" ng-show="showUserCreateForm">
+                <td><input type="text" class="form-control" placeholder="First Name" ng-model="newFirstName"</td>
+                <td><input type="text" class="form-control" placeholder="Last Name" ng-model="newLastName"</td>
+                <td><input type="text" class="form-control" placeholder="Phone #" ng-model="newTel"</td>
+                <td><input type="text" class="form-control" placeholder="Serial #" ng-model="newNfcSerial"</td>
+            </tr>
+            <tr class="add-row" ng-click="toggleUserCreateForm()" ng-hide="showUserCreateForm">
+                <td colspan="4"><span class="glyphicon glyphicon-plus"></span>&nbsp;<b>Add a new user...</b></td>
+            </tr>
+            <tr class="submit" ng-click="postUser()" ng-show="showUserCreateForm">
+                <td colspan="4"><b>Submit</b>&nbsp;&nbsp;<span class="glyphicon glyphicon-ok"></span></td>
+            </tr>
         </tbody>
     </table>
 </div>

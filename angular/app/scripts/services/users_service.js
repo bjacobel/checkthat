@@ -13,6 +13,11 @@ angular.module('CheckCMS')
                     Restangular.one('users', id).get().then(function(data){
                         callback(data);
                     });
+                },
+                postUser: function(params, callback){
+                    Restangular.all('users').post(params).then(function(success){
+                        console.log(success);
+                    });
                 }
             };
         }
