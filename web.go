@@ -46,7 +46,7 @@ func main() {
 	http.HandleFunc("/api/v1", app.ServeHTTP)
 
 	//serve the js app on /
-	chttp.Handle("/", http.FileServer(http.Dir("./static/dist")))
+	chttp.Handle("/", http.FileServer(http.Dir("./static/")))
 	http.HandleFunc("/", HomeHandler)
 
 	httperr := http.ListenAndServe(":"+os.Getenv("PORT"), nil)
