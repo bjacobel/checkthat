@@ -9,9 +9,11 @@ import (
 	"github.com/laurent22/ripple"
 	"net/http"
 	"os"
+	"strings"
 )
 
 var db gorm.DB
+var chttp = http.NewServeMux()
 
 func main() {
 	// Set up the DB
@@ -40,9 +42,23 @@ func main() {
 	app.AddRoute(ripple.Route{Pattern: ":_controller/:id/"})
 	app.AddRoute(ripple.Route{Pattern: ":_controller"})
 
-	// Start the server
-	httperr := http.ListenAndServe(":"+os.Getenv("PORT"), app)
+	// serve the go app on /api/v1
+	app.SetBaseUrl("/api/v1/")
+	http.HandleFunc("/api/v1", app.ServeHTTP)
+
+	//serve the js app on /
+	http.HandleFunc("/", HomeHandler)
+
+	httperr := http.ListenAndServe(":"+os.Getenv("PORT"), nil)
 	if httperr != nil {
 		panic(httperr)
+	}
+}
+
+func HomeHandler(w http.ResponseWriter, r *http.Request) {
+	if strings.Contains(r.URL.Path, ".") {
+		chttp.ServeHTTP(w, r)
+	} else {
+		fmt.Fprintf(w, "HomeHandler")
 	}
 }
