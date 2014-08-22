@@ -37,6 +37,47 @@ func (this *UserController) Get(ctx *ripple.Context) {
 	}
 }
 
+func (this *UserController) Post(ctx *ripple.Context) {
+	body, _ := ioutil.ReadAll(ctx.Request.Body)
+	requestbody := map[string]string{}
+	json.Unmarshal(body, &requestbody)
+
+	newUser := models.User{}
+
+	if _, ok := requestbody["FirstName"]; !ok {
+		ctx.Response.Status = 412
+		return
+	} else {
+		newUser.FirstName = requestbody["FirstName"]
+	}
+
+	if _, ok := requestbody["LastName"]; !ok {
+		ctx.Response.Status = 412
+		return
+	} else {
+		newUser.LastName = requestbody["LastName"]
+	}
+
+	if _, ok := requestbody["Tel"]; !ok {
+		ctx.Response.Status = 412
+		return
+	} else {
+		newUser.Tel = requestbody["Tel"]
+	}
+
+	if _, ok := requestbody["NfcSerial"]; !ok {
+		ctx.Response.Status = 412
+		return
+	} else {
+		derp, _ := strconv.Atoi(requestbody["NfcSerial"])
+		newUser.NfcSerial = int64(derp)
+	}
+
+	this.db.Save(&newUser)
+
+	ctx.Response.Status = 200
+}
+
 func (this *UserController) PostPush(ctx *ripple.Context) {
 	body, _ := ioutil.ReadAll(ctx.Request.Body)
 

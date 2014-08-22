@@ -5,7 +5,7 @@
     <databaseInfo>
         <version>134481920</version>
         <UUID>049F65F9-FF6B-48BD-9BF0-5B46FB887B95</UUID>
-        <nextObjectID>124</nextObjectID>
+        <nextObjectID>126</nextObjectID>
         <metadata>
             <plist version="1.0">
                 <dict>
@@ -247,5 +247,30 @@
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
         <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z106"></relationship>
+    </object>
+    <object type="LMKEYVALUE" id="z125">
+        <attribute name="value" type="string"></attribute>
+        <attribute name="order" type="int64">0</attribute>
+        <attribute name="name" type="string"></attribute>
+        <attribute name="enabled" type="bool">1</attribute>
+        <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z126"></relationship>
+    </object>
+    <object type="LMREQUEST" id="z126">
+        <attribute name="uuid" type="string">EEC05AF4-C138-4B3A-B655-967002864BBA</attribute>
+        <attribute name="url" type="string">[{"name":"com.luckymarmot.Paw.DynamicValue","data":"62706C6973743030D40102030405061617582476657273696F6E58246F626A65637473592461726368697665725424746F7012000186A0A407080D0E55246E756C6CD2090A0B0C5F1013656E7669726F6E6D656E745661726961626C655624636C617373800280035F102430374334444238452D303341452D344435432D394245362D463131333237424143443537D20F1011125A24636C6173736E616D655824636C61737365735F10214C4D456E7669726F6E6D656E745661726961626C6544796E616D696356616C7565A31314155F10214C4D456E7669726F6E6D656E745661726961626C6544796E616D696356616C75655E4C4D44796E616D696356616C7565584E534F626A6563745F100F4E534B657965644172636869766572D1181954726F6F74800100080011001A0023002D00320037003C00420047005D006400660068008F0094009F00A800CC00D000F40103010C011E012101260000000000000201000000000000001A00000000000000000000000000000128"},"\\/users"]</attribute>
+        <attribute name="timeoutinterval" type="float">30</attribute>
+        <attribute name="redirectmethod" type="bool">0</attribute>
+        <attribute name="redirectauthorization" type="bool">0</attribute>
+        <attribute name="method" type="string">POST</attribute>
+        <attribute name="followredirects" type="bool">0</attribute>
+        <attribute name="body" type="string">["{\\n\\t\\"FirstName\\": \\"Charae\\",\\n\\t\\"LastName\\": \\"Tongg\\",\\n\\t\\"Tel\\": \\"+12345678900\\",\\n\\t\\"NfcSerial\\": \\"65465465654\\"\\n}"]</attribute>
+        <attribute name="order" type="int64">6</attribute>
+        <attribute name="name" type="string">New User</attribute>
+        <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM"></relationship>
+        <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z125"></relationship>
     </object>
 </database>
