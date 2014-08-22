@@ -9,7 +9,6 @@ import (
 	"github.com/laurent22/ripple"
 	"net/http"
 	"os"
-	"strings"
 )
 
 var db gorm.DB
@@ -47,6 +46,7 @@ func main() {
 	http.HandleFunc("/api/v1", app.ServeHTTP)
 
 	//serve the js app on /
+	chttp.Handle("/", http.FileServer(http.Dir("./static/dist")))
 	http.HandleFunc("/", HomeHandler)
 
 	httperr := http.ListenAndServe(":"+os.Getenv("PORT"), nil)
@@ -56,9 +56,5 @@ func main() {
 }
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	if strings.Contains(r.URL.Path, ".") {
-		chttp.ServeHTTP(w, r)
-	} else {
-		fmt.Fprintf(w, "HomeHandler")
-	}
+	chttp.ServeHTTP(w, r)
 }
