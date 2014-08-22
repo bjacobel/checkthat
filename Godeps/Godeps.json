@@ -3,6 +3,10 @@
 	"GoVersion": "go1.3",
 	"Deps": [
 		{
+			"ImportPath": "github.com/bjacobel/ripple",
+			"Rev": "b3f6f9417c635a916ce7a1e0e8eb333918ae01ee"
+		},
+		{
 			"ImportPath": "github.com/bjacobel/twilio-go",
 			"Rev": "b39ca9af8542bbdbb267fb052f55a4c1483b0089"
 		},

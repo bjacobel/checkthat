@@ -1,14 +1,13 @@
 package controllers
 
 import (
-	
+	"encoding/json"
 	"github.com/bjacobel/checkthat/models"
+	"github.com/bjacobel/ripple"
 	"github.com/jinzhu/gorm"
 	_ "github.com/lib/pq"
-	"github.com/laurent22/ripple"
-	"strconv"
 	"io/ioutil"
-	"encoding/json"
+	"strconv"
 	"time"
 )
 
@@ -34,8 +33,8 @@ type JoinedResult struct {
 }
 
 type ResponseStruct struct {
-	CheckedOut   []JoinedResult
-	CheckedIn    []models.Device
+	CheckedOut []JoinedResult
+	CheckedIn  []models.Device
 }
 
 func NewDeviceController(db gorm.DB) *DeviceController {
@@ -99,7 +98,7 @@ func (this *DeviceController) PostCheckout(ctx *ripple.Context) {
 
 	device := models.Device{}
 	this.db.Where("nfc_serial = ?", requestbody["device_uid"]).First(&device)
-	
+
 	user := models.User{}
 	this.db.Where("nfc_serial = ?", requestbody["user_uid"]).First(&user)
 
@@ -107,7 +106,7 @@ func (this *DeviceController) PostCheckout(ctx *ripple.Context) {
 		ctx.Response.Status = 412
 		return
 	}
-	
+
 	if user.Id == 0 {
 		ctx.Response.Status = 412
 		return
@@ -122,11 +121,9 @@ func (this *DeviceController) PostCheckout(ctx *ripple.Context) {
 		// check the device out to this user
 		device.UserId = user.Id
 	}
-	
+
 	this.db.Save(&device)
 
 	ctx.Response.Status = 200
 	ctx.Response.Body = device
 }
-
-

@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"github.com/bjacobel/checkthat/controllers"
 	"github.com/bjacobel/checkthat/models"
+	"github.com/bjacobel/ripple"
 	"github.com/bjacobel/twilio-go"
 	"github.com/jinzhu/gorm"
-	"github.com/laurent22/ripple"
 	"net/http"
 	"os"
 )
@@ -43,7 +43,7 @@ func main() {
 
 	// serve the go app on /api/v1
 	app.SetBaseUrl("/api/v1/")
-	http.HandleFunc("/api/v1", app.ServeHTTP)
+	http.HandleFunc("/api/v1/", app.ServeHTTP)
 
 	//serve the js app on /
 	chttp.Handle("/", http.FileServer(http.Dir("./static/")))

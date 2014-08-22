@@ -1,18 +1,18 @@
 package controllers
 
 import (
+	"encoding/json"
 	"github.com/bjacobel/checkthat/models"
+	"github.com/bjacobel/ripple"
+	"github.com/bjacobel/twilio-go"
 	"github.com/jinzhu/gorm"
 	_ "github.com/lib/pq"
-	"github.com/laurent22/ripple"
-	"github.com/bjacobel/twilio-go"
-	"strconv"
 	"io/ioutil"
-	"encoding/json"
+	"strconv"
 )
 
 type UserController struct {
-	db gorm.DB
+	db       gorm.DB
 	twclient *twilio.TwilioRestClient
 }
 
@@ -55,14 +55,14 @@ func (this *UserController) PostPush(ctx *ripple.Context) {
 	var msg_resp *twilio.MessagesResponse
 	var msg_err *twilio.ErrorResponse
 
-	if  device.UserId > 0 {
+	if device.UserId > 0 {
 		// if checked out to a user. push to them only
 
 		user := models.User{}
 		this.db.Find(&user, device.UserId)
 
-		message := "Hey, "+string(user.FirstName)+"! Somebody needs to use the "+string(device.Model)+" you've checked out. Please return it as soon as you're done with it!"
-		
+		message := "Hey, " + string(user.FirstName) + "! Somebody needs to use the " + string(device.Model) + " you've checked out. Please return it as soon as you're done with it!"
+
 		msg_resp, msg_err = this.twclient.Messages.Create("+1 617-860-2277", "+15072103812", message)
 
 	} else {
@@ -74,14 +74,14 @@ func (this *UserController) PostPush(ctx *ripple.Context) {
 		var message string
 
 		for _, user := range users {
-			message = "Hey, "+string(user.FirstName)+"! Somebody needs the "+string(device.Model)+" called "+string(device.Name)+", but CheckThis has lost track of it. If you have it, please check it back in!"
+			message = "Hey, " + string(user.FirstName) + "! Somebody needs the " + string(device.Model) + " called " + string(device.Name) + ", but CheckThis has lost track of it. If you have it, please check it back in!"
 
 			msg_resp, msg_err = this.twclient.Messages.Create("+1 617-860-2277", user.Tel, message)
-			
+
 			if msg_err.Code == 0 {
 				break
 			}
-		} 
+		}
 	}
 
 	if msg_err.Code == 0 {
@@ -91,5 +91,5 @@ func (this *UserController) PostPush(ctx *ripple.Context) {
 		ctx.Response.Body = msg_err.Message
 		ctx.Response.Status = msg_err.Code
 	}
-	
+
 }
