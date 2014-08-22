@@ -2,31 +2,36 @@
 
 /**
  * @ngdoc overview
- * @name staticApp
+ * @name CheckCMS
  * @description
- * # staticApp
+ * # CheckCMS
  *
  * Main module of the application.
  */
-angular
-  .module('staticApp', [
+ angular.module('CheckCMS', [
     'ngAnimate',
     'ngCookies',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
-  ])
-  .config(function ($routeProvider) {
+    'ngTouch',
+    'restangular',
+]).config(function ($routeProvider) {
     $routeProvider
-      .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
-      })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl'
-      })
-      .otherwise({
+    .when('/devices', {
+        templateUrl: 'views/devices.html',
+        controller: 'DevicesCtrl'
+    })
+    .when('/', {
+        templateUrl: 'views/devices.html',
+        controller: 'DevicesCtrl'
+    })
+    .when('/users', {
+        templateUrl: 'views/users.html',
+        controller: 'UsersCtrl'
+    })
+    .otherwise({
         redirectTo: '/'
-      });
-  });
+    });
+}).config(function(RestangularProvider) {
+    RestangularProvider.setBaseUrl('http://checkthat.herokuapp.com/api/v1/');
+});

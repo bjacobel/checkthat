@@ -1,0 +1,24 @@
+<div class="table-responsive">
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th>OS</th>
+                <th>Type</th>
+                <th>Make</th>
+                <th>Model</th>
+                <th>Name</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="device in devices track by $index">
+                <td>{{device.Os}}</td>
+                <td>{{device.Type}}</td>
+                <td>{{device.Manufacturer}}</td>
+                <td>{{device.Model}}</td>
+                <td>{{device.Name}}</td>
+                <td>{{device.status}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
